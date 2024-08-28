@@ -1,9 +1,8 @@
-// app/post/[id]/page.js
 
 import { fetchPostByID, fetchAllPosts } from '@/lib/api';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export default function PostPage({ params }) {
   const [post, setPost] = useState(null);
