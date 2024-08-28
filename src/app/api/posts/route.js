@@ -4,13 +4,13 @@ const url = 'mongodb://localhost:27017';
 const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
 const dbName = 'next-test';
 
-async function connectToDatabase() {
-  if (!client.isConnected()) {
-    await client.connect();
-  }
-  const db = client.db(dbName);
-  return db;
-}
+// async function connectToDatabase() {
+//   if (!client.isConnected()) {
+//     await client.connect();
+//   }
+//   const db = client.db(dbName);
+//   return db;
+// }
 
 export async function fetchAllPosts() {
   const db = await connectToDatabase();
