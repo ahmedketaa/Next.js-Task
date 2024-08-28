@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import OurLoading from './loading';
 import PostCard from '@/Components/PostCard/PostCard';
 
-export default function Home() {
+export default function Posts() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -33,7 +33,7 @@ export default function Home() {
   }
 
   return (
-    <div className="px-10 flex justify-start align-items-center gap-10 my-10 min-h-screen">
+    <div className="px-10 grid grid-cols-1 my-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 min-h-screen">
       {posts.map(post => (
         <PostCard key={post._id} id={post._id} title={post.title} body={post.body} />
       ))}
