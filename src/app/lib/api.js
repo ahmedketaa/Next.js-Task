@@ -10,3 +10,11 @@ export async function fetchAllPosts() {
   const allPosts = await posts.find().toArray();
   return allPosts;
 }
+
+export async function fetchPostById(id) {
+  await client.connect();
+  const database = client.db('next-test'); 
+  const posts = database.collection('posts'); 
+  const post = await posts.findOne({ _id: new MongoClient.ObjectId(id) }); 
+  return post;
+}

@@ -1,8 +1,8 @@
-
-import { fetchPostByID, fetchAllPosts } from '@/lib/api';
+"use client"
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { fetchAllPosts, fetchPostById } from '@/app/lib/api';
 
 export default function PostPage({ params }) {
   const [post, setPost] = useState(null);
@@ -12,7 +12,7 @@ export default function PostPage({ params }) {
 
   useEffect(() => {
     async function fetchData() {
-      const postRes = await fetchPostByID(id);
+      const postRes = await fetchPostById(id);
       if (!postRes) {
         router.push('/404');
         return;

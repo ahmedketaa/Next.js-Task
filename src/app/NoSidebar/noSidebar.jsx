@@ -1,4 +1,4 @@
-import NoSidebarLayout from '../layouts/NoSidebarLayout';
+import NoSidebarLayout from "../layouts/withoutSidebar";
 
 export default function Page({ children }) {
   return (

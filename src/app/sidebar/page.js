@@ -1,4 +1,4 @@
-import SidebarLayout from '../layouts/SidebarLayout';
+import SidebarLayout from "../layouts/sideBar";
 
 export default function Page({ children }) {
   return (
