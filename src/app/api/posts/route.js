@@ -1,25 +1,15 @@
 import { MongoClient } from 'mongodb';
 
 const url = 'mongodb://localhost:27017';
-const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
-const dbName = 'next-test';
-
-// async function connectToDatabase() {
-//   if (!client.isConnected()) {
-//     await client.connect();
-//   }
-//   const db = client.db(dbName);
-//   return db;
-// }
-
-export async function fetchAllPosts() {
+const client = new MongoClient(url);
+export default async function fetchAllPosts() {
   const db = await connectToDatabase();
   const posts = db.collection('posts');
   const allPosts = await posts.find().toArray();
   return allPosts;
 }
 
-export async function fetchPostById(id) {
+export default async function fetchPostById(id) {
   const db = await connectToDatabase();
   const posts = db.collection('posts');
   const post = await posts.findOne({ _id: new MongoClient.ObjectId(id) }); 
