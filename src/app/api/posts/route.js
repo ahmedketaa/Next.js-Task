@@ -1,28 +1,44 @@
-import clientPromise from "@/app/lib/mongodb";
+import { MongoClient } from 'mongodb';
 
-export async function GET() {
-  const client = await clientPromise;
-  const db = client.db("myBlogDB");
-  const posts = await db.collection("posts").find({}).toArray();
-  return new Response(JSON.stringify(posts), { status: 200 });
+const url = 'mongodb://localhost:27017';
+const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+const dbName = 'next-test';
+
+async function connectToDatabase() {
+  if (!client.isConnected()) {
+    await client.connect();
+  }
+  const db = client.db(dbName);
+  return db;
 }
 
-export async function POST(req) {
-  const { title, body, image } = await req.json();
-  const client = await clientPromise;
-  const db = client.db("myBlogDB");
-  const result = await db.collection("posts").insertOne({ title, body, image });
-  return new Response(JSON.stringify(result), { status: 201 });
+export async function fetchAllPosts() {
+  const db = await connectToDatabase();
+  const posts = db.collection('posts');
+  const allPosts = await posts.find().toArray();
+  return allPosts;
 }
-  
-  
-// export async function GET(req) {
-//   const { id } = req.query;
-//   const client = await clientPromise;
-//   const db = client.db("myBlogDB");
-//   const post = await db.collection("posts").findOne({ _id: new ObjectId(id) });
-//   if (!post) {
-//     return new Response(null, { status: 404 });
-//   }
-//   return new Response(JSON.stringify(post), { status: 200 });
-// }
+
+export async function fetchPostById(id) {
+  const db = await connectToDatabase();
+  const posts = db.collection('posts');
+  const post = await posts.findOne({ _id: new MongoClient.ObjectId(id) }); 
+  return post;
+}
+
+export default async function handler(req, res) {
+  switch (req.method) {
+    case 'GET':
+      if (req.query.id) {
+        const post = await fetchPostById(req.query.id);
+        res.status(200).json(post);
+      } else {
+        const allPosts = await fetchAllPosts();
+        res.status(200).json(allPosts);
+      }
+      break;
+    default:
+      res.setHeader('Allow', ['GET']);
+      res.status(405).end(`Method ${req.method} Not Allowed`);
+  }
+}

@@ -1,8 +1,7 @@
-"use client"
+"use client";
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { fetchAllPosts, fetchPostById } from '@/app/lib/api';
 
 export default function PostPage({ params }) {
   const [post, setPost] = useState(null);
@@ -12,15 +11,17 @@ export default function PostPage({ params }) {
 
   useEffect(() => {
     async function fetchData() {
-      const postRes = await fetchPostById(id);
-      if (!postRes) {
+      const postRes = await fetch(`/api/posts?id=${id}`);
+      const postData = await postRes.json();
+      if (!postData) {
         router.push('/404');
         return;
       }
-      setPost(postRes);
+      setPost(postData);
 
-      const allPosts = await fetchAllPosts();
-      setPosts(allPosts);
+      const allPostsRes = await fetch('/api/posts');
+      const allPostsData = await allPostsRes.json();
+      setPosts(allPostsData);
     }
 
     fetchData();
@@ -28,7 +29,7 @@ export default function PostPage({ params }) {
 
   if (!post) return <div>Loading...</div>;
 
-  const currentIndex = posts.findIndex(p => p._id === post._id);
+  const currentIndex = posts.findIndex(p => p._id.toString() === post._id.toString());
   const nextPost = posts[currentIndex + 1];
   const prevPost = posts[currentIndex - 1];
 
