@@ -1,7 +1,5 @@
-// app/layouts/SidebarLayout.js
 
 import Link from 'next/link';
-import './globals.css';
 
 const SidebarLayout = ({ children }) => {
   return (
