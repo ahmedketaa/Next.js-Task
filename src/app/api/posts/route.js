@@ -1,13 +1,11 @@
-import clientPromise from '@/app/lib/api'; // Reuse the clientPromise from api.js
+import clientPromise from '@/app/lib/mongodb';
 import { ObjectId } from 'mongodb';
 
-// Helper function to get the database instance
 async function connectToDatabase() {
   const client = await clientPromise;
-  return client.db('myBlog'); // Replace with your actual database name
+  return client.db('myBlog'); 
 }
 
-// Fetch all posts
 export async function fetchAllPosts() {
   const db = await connectToDatabase();
   const posts = db.collection('posts');
@@ -15,7 +13,6 @@ export async function fetchAllPosts() {
   return allPosts;
 }
 
-// Fetch a post by ID
 export async function fetchPostById(id) {
   const db = await connectToDatabase();
   const posts = db.collection('posts');
@@ -23,7 +20,6 @@ export async function fetchPostById(id) {
   return post;
 }
 
-// API route handler
 export default async function handler(req, res) {
   switch (req.method) {
     case 'GET':
