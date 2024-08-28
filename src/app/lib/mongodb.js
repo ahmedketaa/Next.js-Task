@@ -3,7 +3,7 @@ const { MongoClient } = require("mongodb");
 let mongoClient;
 let clientPromise;
 if (!clientPromise) {
-  mongoClient = new MongoClient("mongodb://localhost:27017/netx-test");
+  mongoClient = new MongoClient("mongodb://localhost:27017/myBlog");
   clientPromise = mongoClient.connect();
 }
 
